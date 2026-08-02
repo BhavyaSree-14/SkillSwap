@@ -1,93 +1,123 @@
-# SkillSwap+
+# SkillSwap
 
-A full-stack rebuild of the SkillSwap+ app: **Django REST Framework** backend +
-**React (Vite)** frontend, styled to match the original design (indigo accent,
-Plus Jakarta Sans / Inter, rounded cards).
+SkillSwap is an AI-powered skill exchange platform that enables users to connect, learn, and collaborate by matching individuals based on their skills, learning goals, and interests. The application provides an interactive marketplace for skill sharing, intelligent matchmaking, messaging, team collaboration, and gamification features to encourage continuous learning.
 
-> The original frontend you uploaded was a compiled build from Base44 (a
-> no-code app builder) — the minified JS was hard-wired to Base44's own hosted
-> backend/auth, so it couldn't be repointed at a custom backend. This project
-> reimplements the same feature set (marketplace, matchmaking, swap requests,
-> messaging, teams, leaderboard, skill DNA, skill gap, analytics, admin) end
-> to end with real, working code you own.
+## Features
 
-## Project structure
+- AI-powered skill matchmaking and recommendations
+- User authentication using JWT
+- Skill marketplace for teaching and learning
+- Skill swap requests and request management
+- Real-time messaging between users
+- Team creation and collaboration
+- Skill DNA and skill gap analysis
+- Leaderboard, badges, and SkillCoin reward system
+- User profile and progress tracking
+- Admin dashboard for user and content management
+
+## Tech Stack
+
+### Frontend
+- React (Vite)
+- Tailwind CSS
+- Axios
+- React Router
+
+### Backend
+- Django
+- Django REST Framework
+- JWT Authentication
+
+### Database
+- SQLite
+
+### AI & Machine Learning
+- Python
+- Scikit-learn (Skill Matchmaking & Recommendation)
+
+---
+
+## Project Structure
 
 ```
 skillswap-project/
-├── backend/     Django REST Framework API (JWT auth, SQLite by default)
-└── frontend/    React + Vite + Tailwind SPA
+├── backend/     Django REST Framework API
+└── frontend/    React + Vite Application
 ```
 
-## 1. Backend setup
+---
+
+## Backend Setup
 
 ```bash
 cd backend
+
 python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+
+# Windows
+venv\Scripts\activate
+
 pip install -r requirements.txt
 
 python manage.py migrate
-python manage.py createsuperuser   # for /admin/ and the app's Admin page (needs is_staff)
-python manage.py seed_demo_data    # optional: adds demo users/skills (password: password123)
 
-python manage.py runserver          # http://127.0.0.1:8000
+python manage.py createsuperuser
+
+python manage.py runserver
 ```
 
-Django admin is at `http://127.0.0.1:8000/admin/`.
-The API is namespaced under `http://127.0.0.1:8000/api/`.
+Backend runs at:
 
-### Key endpoints
+```
+http://127.0.0.1:8000
+```
 
-| Purpose | Endpoint |
-|---|---|
-| Register | `POST /api/auth/register/` |
-| Login (JWT) | `POST /api/auth/login/` → `{access, refresh}` |
-| Refresh token | `POST /api/auth/refresh/` |
-| Current user / profile | `GET|PATCH /api/auth/me/` |
-| Forgot / reset password | `POST /api/auth/forgot-password/`, `POST /api/auth/reset-password/` |
-| Skills catalog | `/api/skills/` |
-| My skills (teach/learn) | `/api/user-skills/` |
-| Marketplace listings | `GET /api/marketplace/?category=&search=` |
-| Matchmaking suggestions | `GET /api/matchmaking/` |
-| Swap requests | `/api/swap-requests/` (+ `accept/`, `reject/`, `cancel/`, `complete/`) |
-| Messages | `/api/messages/` (+ `conversations/`, `mark_read/`) |
-| Teams | `/api/teams/` (+ `join/`, `leave/`) |
-| Leaderboard | `GET /api/leaderboard/` |
-| Badges | `/api/badges/`, `/api/user-badges/` |
-| SkillCoin wallet | `GET /api/wallet/transactions/` |
-| Skill DNA (radar data) | `GET /api/skill-dna/` |
-| Skill gap analysis | `GET /api/skill-gap/` |
-| Analytics (staff only) | `GET /api/analytics/` |
-| Admin: flags | `/api/admin/flags/` (+ `resolve/`) |
-| Admin: users | `/api/admin/users/` (+ `toggle_active/`, `toggle_verified/`) |
+---
 
-SkillCoins are awarded automatically (100 on signup, a stake back to both
-sides when a swap is marked `complete`), and "First Swap" / "Swap Veteran"
-badges are granted automatically as swaps complete.
-
-## 2. Frontend setup
+## Frontend Setup
 
 ```bash
 cd frontend
+
 npm install
-npm run dev          # http://localhost:5173
+
+npm run dev
 ```
 
-The Vite dev server proxies `/api` to `http://127.0.0.1:8000`, so just run
-the Django server alongside it — no CORS/env config needed for local dev.
+Frontend runs at:
 
-For production, `npm run build` outputs static files in `frontend/dist/`
-that you can serve from any static host or from Django's `staticfiles`.
+```
+http://localhost:5173
+```
 
-## Notes / next steps
+---
 
-- Password reset currently returns the `uid`/`token` directly in the API
-  response (and the frontend shows a dev-mode link) since no email backend
-  is configured. Wire up `EMAIL_BACKEND` in `settings.py` and email the link
-  instead for production.
-- `DEBUG=True` and `SECRET_KEY` are dev defaults — set real environment
-  variables before deploying.
-- Data model lives in `backend/api/models.py`: `User`, `Skill`, `UserSkill`,
-  `SkillSwapRequest`, `Message`, `Team`/`TeamMembership`, `Badge`/`UserBadge`,
-  `SkillCoinTransaction`, `AdminFlag`.
+## Core Modules
+
+- User Authentication
+- User Profile Management
+- Skill Marketplace
+- AI Skill Matchmaking
+- Skill Swap Requests
+- Messaging System
+- Team Collaboration
+- Skill DNA Analysis
+- Skill Gap Analysis
+- Leaderboard & Rewards
+- Admin Dashboard
+
+---
+
+## Future Enhancements
+
+- Real-time chat using WebSockets
+- Email verification and password recovery
+- Cloud deployment
+- AI-based personalized learning roadmap
+- Video call integration for skill exchange sessions
+
+---
+
+## License
+
+This project is developed for educational and portfolio purposes.
